@@ -13,11 +13,19 @@ class Login extends Component
     public $password;
     public $remember;
 
+    // protected $listeners = ['error' => '$refresh'];
+
+
     public function rules(){
         return [
             'email' => 'required|email',
             'password' => 'required|min:8',
         ];
+    }
+
+
+    public function mount(){
+        // $this->emit('error', '$refresh');
     }
     // public function save(): void
     // {
@@ -53,10 +61,16 @@ class Login extends Component
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember))
         {
+            // $this->redirectRoute('dashboard', 'success');
+            session()->put('test', 'hello testerr');
+            session()->flash('success', 'hey');
+            // $this->emit('success');
+            $this->emitTo('dashboard', 'test');
             $this->emit('redirect', '/dashboard');
+            // return redirect()->route('dashboard')->with('test', 'failed');
         }else{
             // session()->put('message', 'weird!');
-            // session()->flash('message', 'email or password must be wrong.');
+            session()->flash('message', 'email or password must be wrong.');
             $this->emit('error');
         }
     }

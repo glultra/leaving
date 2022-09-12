@@ -11,6 +11,7 @@ class Navigations extends Component
      *
      * @return void
      */
+    public $activeItem;
     public function __construct()
     {
         //

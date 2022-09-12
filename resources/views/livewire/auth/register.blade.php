@@ -23,6 +23,7 @@
                         Create and account
                     </h1>
                     <form class="space-y-2 md:space-y-6" wire:submit.prevent='store'>
+                        @csrf
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                 email</label>

@@ -18,6 +18,7 @@
 
 
     {{-- <wireui:scripts /> --}}
+    
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -26,21 +27,16 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
+    
+
 </head>
 
 <body class="dark:bg-slate-800">
-  
-    <x-notifications position="top-right" />
-    
+    {{-- <x-notifications position="top-center" /> --}}
+    {{-- <x-notifications /> --}}
+        
     {{ $slot }}
-    
 
-
-    {{-- Livewire scripts.. --}}
-    {{-- <script defer type="module">
-        import hotwiredTurbo from "https://cdn.skypack.dev/@hotwired/turbo"
-    </script> --}}
-    
     <script type="module">
         import hotwiredTurbo from "https://cdn.skypack.dev/@hotwired/turbo"
     </script>
@@ -52,6 +48,8 @@
         window.livewire.on('redirect', url => Turbo.visit(url));
     </script>
 
+    
+    
 </body>
 
 </html>

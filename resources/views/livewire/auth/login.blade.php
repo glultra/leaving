@@ -8,6 +8,8 @@
             From Login
         </div>
     </div> --}}
+    <x-notifications position="top-right" />
+
     <div>
         <section class="bg-gray-50 dark:bg-gray-900">
             <a href=" {{ route('home') }} " class="m-3 fixed">
@@ -51,6 +53,7 @@
                         @endif --}}
                         
                         <form class="space-y-4 md:space-y-6" wire:submit.prevent='store'>
+                            @csrf
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                 <input type="email" wire:model='email' name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
@@ -80,25 +83,40 @@
                             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet? <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                             </p>
+                          
                         </form>
+
+                        <div x-data x-init="@this.on('error', () => { 
+                                window.$wireui.notify({
+                                    title: 'Checkout please',
+                                    description: 'Email or password must be wrong.',
+                                    icon: 'error',
+                                })})"> {{-- listen for events on component --}}
+                        </div>
+
+                       
                     </div>
+
                 </div>
             </div>
             
           </section>
     </div>
-    <button wire:click="$emit('error')">
-        test
-    </button>
-    <script>
-        livewire.on('error', () => {
-            window.$wireui.notify({
-                title: 'Checkout please',
-                description: 'Email or password must be wrong.',
-                icon: 'error',
-                
-            })
-        });
-    </script>
     
+    {{-- @push('scripts') --}}
+    <script>
+        // document.addEventListener("livewire:load", () => console.log(window.$wireui))
+        // livewire.on('error', ()=> {
+        //     alert('hello world')
+        // })
+        // livewire.on('error', () => {
+        //     window.$wireui.notify({
+        //         title: 'Checkout please',
+        //         description: 'Email or password must be wrong.',
+        //         icon: 'error',
+                
+        //     })
+        // });
+    </script>
+    {{-- @endpush --}}
 </div>
