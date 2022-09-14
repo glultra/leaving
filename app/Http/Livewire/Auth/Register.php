@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Auth;
 use App\Models\User;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
@@ -40,9 +41,11 @@ class Register extends Component
             'password' => Hash::make($this->password),
         ]);
 
-        auth()->attempt($request->only('email', 'password'));
+        if(Auth::attempt(['email' => $this->email, 'password' => $this->password], false)){
+            session()->put('success', 'successfully created account !');
+            $this->emit('redirect', '/dashboard');
+        }
         
-        $this->emit('redirect', '/dashboard');
     }
 
     public function render()

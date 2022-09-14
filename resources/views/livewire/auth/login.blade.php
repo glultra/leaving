@@ -86,13 +86,15 @@
                           
                         </form>
 
-                        <div x-data x-init="@this.on('error', () => { 
-                                window.$wireui.notify({
-                                    title: 'Checkout please',
-                                    description: 'Email or password must be wrong.',
-                                    icon: 'error',
-                                })})"> {{-- listen for events on component --}}
-                        </div>
+                        {{-- @if(Session::has('error')) --}}
+                            <div x-data x-init="@this.on('error', () => { 
+                                    window.$wireui.notify({
+                                        title: 'Checkout please',
+                                        description: 'Email or password must be wrong.',
+                                        icon: 'error',
+                                    })})"> {{-- listen for events on component --}}
+                            </div>
+                        {{-- @endif --}}
 
                        
                     </div>
@@ -102,21 +104,4 @@
             
           </section>
     </div>
-    
-    {{-- @push('scripts') --}}
-    <script>
-        // document.addEventListener("livewire:load", () => console.log(window.$wireui))
-        // livewire.on('error', ()=> {
-        //     alert('hello world')
-        // })
-        // livewire.on('error', () => {
-        //     window.$wireui.notify({
-        //         title: 'Checkout please',
-        //         description: 'Email or password must be wrong.',
-        //         icon: 'error',
-                
-        //     })
-        // });
-    </script>
-    {{-- @endpush --}}
 </div>

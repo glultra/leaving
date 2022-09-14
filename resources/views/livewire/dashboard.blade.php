@@ -1,5 +1,5 @@
 <div>
-    <x-navigations :activeItem=2/>
+    <x-navigations :activeItem=2 :key=2/>
     <x-notifications position="top-center" />
 
     <div>
@@ -10,16 +10,17 @@
             </div>
         </div>
     </div>
-    @if (Session::has('test'))
+    @if (Session::has('success'))
     <div  x-data  
     x-init="
         window.$wireui.notify({
             title: 'Logged in!',
-            description: 'Your account was successfully logged in.',
+            description: '{{session('success')}}',
             icon: 'success'
         });
         ">
-        {{ Session::forget('test') }}
+        {{ Session::forget('success') }}
     </div>
     @endif
+    
 </div>

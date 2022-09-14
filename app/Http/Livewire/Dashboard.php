@@ -6,7 +6,8 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public $listeners = ['test'];
+    public $listeners = ['success'];
+    
     public function mount(){
     }
     public function render()
