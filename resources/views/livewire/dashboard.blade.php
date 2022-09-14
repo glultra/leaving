@@ -1,6 +1,8 @@
 <div>
     <x-navigations :activeItem=2 :key=2/>
-    <x-notifications position="top-center" />
+    {{-- <x-notifications position="top-center" /> --}}
+    <x-dialog />
+
 
     <div>
         {{-- Because she competes with no one, no one can compete with her. --}}
@@ -12,8 +14,7 @@
     </div>
     @if (Session::has('success'))
     <div  x-data  
-    x-init="
-        window.$wireui.notify({
+    x-init="window.$wireui.dialog({
             title: 'Logged in!',
             description: '{{session('success')}}',
             icon: 'success'
