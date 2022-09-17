@@ -3,18 +3,42 @@
 namespace App\Http\Livewire\Components;
 
 use App\Models\Post as ModelsPost;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 
 class Post extends Component
 {
     use Actions;
+    use AuthorizesRequests;
     
     public $post;
     public $isOpened = false;
+    public $newBody;
+    public $image;
+    public $body;
 
-    public function checkForDeletion($post_id, $isOpened = false): void{
+    public function mount(){
+        $this->body = $this->post->body;
+        $this->newBody = $this->post->body;
+        $this->image = $this->post->image;
+    }
+
+    public function editText(){
+        // Frontend Update:
+        $this->post->body = $this->newBody;
+
+        // Backend Update:
+        ModelsPost::where([
+            'id' => $this->post->id,
+        ])->update([
+            'body' => $this->newBody,
+        ]);
+    }
+
+    public function checkForDeletion($isOpened = false): void{
         // $this->post_id = $post_id;
+        $post_id = $this->post->id;
         $this->isOpened = $isOpened;
 
         if($this->isOpened){
@@ -40,9 +64,11 @@ class Post extends Component
         ]);
     }
 
-    public function delete($post_id): void
+    public function delete(): void
     {
-        ModelsPost::where(['id' => $post_id])->delete();
+        // dd($post->id);
+        $this->authorize('delete', $this->post);
+        ModelsPost::where(['id' => $this->post->id])->delete();
         
         // $this->emit('$refresh');
         

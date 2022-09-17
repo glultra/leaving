@@ -3,18 +3,20 @@
 namespace App\Http\Livewire;
 
 use App\Models\Post as ModelsPost;
-use App\Models\User;
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 use WireUi\Traits\Actions;
 
 class Post extends Component
 {
     use Actions;
-    
+    use WithFileUploads;
+
     public $posts;
     public $body;
+    public $image;
+    public $name;
 
     public $listeners = [
         'removed' => '$refresh',
@@ -28,10 +30,24 @@ class Post extends Component
         );
     }
 
+    public function removeTemp(){
+        $this->image = null;
+        // dd($this->image);
+    }
+
     public function rules(){
-        return [
-            'body' => 'required',
-        ];
+        if($this->image){
+            // dd('here ?');
+            return [
+                'body' => 'required',
+                'image' => 'image|max:7168|mimes:jpeg,png,svg,jpg,gif',
+            ];
+        }else{
+            return [
+                'body' => 'required',
+            ];
+        }
+       
     }
 
     public function mount(){
@@ -46,16 +62,28 @@ class Post extends Component
 
     public function store(){
         // Validate...
-        $this->validate();
+        $data = $this->validate();
 
         // Store
-        ModelsPost::create([
-            'user_id' => auth()->user()->id,
-            'body' => $this->body,
-        ]);
+        if($this->image){
+            $imageName = $this->image->store('images', 'public');
+            ModelsPost::create([
+                'user_id' => auth()->user()->id,
+                'body' => $this->body,
+                'image' => $imageName, 
+            ]);
+            // dd('success');
+        }else{
+            ModelsPost::create([
+                'user_id' => auth()->user()->id,
+                'body' => $this->body,
+            ]);
+        }
+        // $this->image->store('images', 'public');
 
         $this->posts = ModelsPost::latest()->get();
         $this->body = '';
+        $this->image = null;
 
         $this->notification([
             'title'       => 'Post uploaded!',
@@ -63,6 +91,7 @@ class Post extends Component
             'icon'        => 'success'
         ]);
 
+        
     }
 
     public function render()

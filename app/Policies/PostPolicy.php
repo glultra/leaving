@@ -2,7 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Post;
+use App\Models\Post as ModelsPost;
+use App\Models\User;
 // use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -20,8 +21,10 @@ class PostPolicy
         //
     }
 
-    public function delete(Post $post){
+    public function delete(User $user,ModelsPost $post){
         // dd($post->user());
-        return auth()->user === $post->user();
+        // dd($user, $post->user);
+        
+        return $user == $post->user;
     }
 }
