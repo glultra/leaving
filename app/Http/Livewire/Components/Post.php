@@ -16,7 +16,7 @@ class Post extends Component
     use AuthorizesRequests;
     use WithFileUploads;
     
-    public $post;
+    public ModelsPost $post;
     public $isOpened = false;
     public $newBody;
     public $newImage;
@@ -116,14 +116,19 @@ class Post extends Component
 
     public function delete(): void
     {
-        // dd($post->id);
+        // dd($this->post);
+        $tempPost = $this->post;
+        
         $this->authorize('delete', $this->post);
-        Storage::delete('public/'.$this->post->image);
+        // Storage::delete('public/'.$this->post->image);
+        Storage::move('public/'.$this->post->image, 'public/temp/'.$this->post->image);
+
         ModelsPost::where(['id' => $this->post->id])->delete();
         
         // dd($post_id);
         $this->emitUp('removed');
-        $this->emitUp('showSuccess');
+        $this->emitUp('showSuccess', $tempPost);
+        // $this->emitUp('postTempDeleted', $tempPost);
     }
 
     public function cancel():void{

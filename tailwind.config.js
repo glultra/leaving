@@ -29,6 +29,7 @@ module.exports = {
         extend: {
             colors: {
                 // slate: colors.blueGray,
+                slate:colors.slate,
                 primary: {
                     50: "#eff6ff",
                     100: "#dbeafe",

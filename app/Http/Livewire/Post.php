@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Post as ModelsPost;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -24,6 +25,7 @@ class Post extends Component
         'updatedPost' => 'onUpdatePost',
     ];
 
+
     public function onUpdatePost(){
         $this->posts = ModelsPost::latest()->get();
 
@@ -36,11 +38,54 @@ class Post extends Component
         $this->emitTo('post', 'updatePost');
     }
 
-    public function showSuccess(){
-        $this->notification()->success(
-            $title = 'Post deleted',
-            $description = 'Your post was successfull deleted'
-        );
+    public function showSuccess($tempPost){
+        $this->notification()->confirm([
+            'title'       => 'Post deleted!',
+            'description' => 'Your post was successfull deleted',
+            'icon'        => 'warning',
+            'accept' => [
+                "label" => 'Undo',
+                "method" => 'undo',
+                'params' => $tempPost
+            ],
+            'onClose' => [
+                "method" => 'close',
+                'params' => $tempPost
+
+            ]
+        ]);
+    }
+
+    public function close($tempPost){
+        // dd('closed');
+        Storage::delete('public/temp/'.$tempPost['image']);
+    }
+
+    public function undo($tempPost){
+
+        $post = ModelsPost::create([
+            'id' => $tempPost['id'],
+            'user_id' => $tempPost['user']['id'],
+            'body' => $tempPost['body'],
+            'image' => $tempPost['image'],
+            'created_at' => $tempPost['created_at'],
+        ]);
+
+        // $post = new ModelsPost();
+        // dd($post);
+        foreach($tempPost['likes'] as $like){
+            $post->likes()->create([
+                'id' => $like['id'],
+                'user_id' => $like['user_id'],
+                'post_id' => $like['post_id'],
+                'created_at' => $like['created_at'],
+            ]);
+        }
+
+        Storage::move('public/temp/'.$post->image, 'public/'.$post->image);
+
+
+        $this->posts = ModelsPost::latest()->get();
     }
 
     public function removeTemp(){

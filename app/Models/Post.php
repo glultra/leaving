@@ -10,9 +10,11 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
+        // 'post_id',
         'user_id',
         'body',
         'image',
+        'created_at'
     ];
     
     public function user(){
@@ -20,7 +22,7 @@ class Post extends Model
     }
 
     public function likes(){
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class)->latest();
     }
 
     public function likedBy(User $user){

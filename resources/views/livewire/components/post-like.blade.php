@@ -24,9 +24,8 @@
     <x-modal blur wire:model.defer="postLikedList-{{$post->id}}" class="justify-center">
         <x-card title="Post liked by">
             <ul class="text-gray-600 dark:text-white">
-                {{-- {{$post->likes->id}} --}}
                 @foreach ($post->likes as $like)
-                    <li class="mt-2 rounded shadow dark:border-transparent dark:shadow-slate-900 dark:shadow-2xl border p-3">
+                    <li class="mt-2 rounded shadow dark:border-transparent dark:shadow-slate-900  border p-3">
                         <a href="" class="font-bold">{{ $like->user->name }}</a>
                         <span>{{ $like->created_at->diffForHumans() }}</span>
                     </li>
