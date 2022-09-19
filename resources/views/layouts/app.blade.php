@@ -5,6 +5,9 @@
     {{-- <meta charset="UTF-8"> --}}
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
     {{-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> --}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Social livewire</title>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
 
@@ -31,13 +34,12 @@
 
 </head>
 
-<body class="dark:bg-slate-800">
+<body class="dark:bg-slate-800"> 
     {{-- <x-notifications position="top-center" /> --}}
     {{-- <x-notifications /> --}}
+        {{ $slot }}
         
-    {{ $slot }}
-
-    <script type="module">
+        <script type="module">
         import hotwiredTurbo from "https://cdn.skypack.dev/@hotwired/turbo"
     </script>
 
@@ -50,7 +52,7 @@
     </script>
 
 
-    
+
 </body>
 
 </html>

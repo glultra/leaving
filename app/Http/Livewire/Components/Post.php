@@ -4,36 +4,86 @@ namespace App\Http\Livewire\Components;
 
 use App\Models\Post as ModelsPost;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Livewire;
+use Livewire\WithFileUploads;
 use WireUi\Traits\Actions;
 
 class Post extends Component
 {
     use Actions;
     use AuthorizesRequests;
+    use WithFileUploads;
     
     public $post;
     public $isOpened = false;
     public $newBody;
-    public $image;
+    public $newImage;
     public $body;
 
+    public $listeners = [
+        'updatedPost' => '$refresh',
+        'likedPost' => '$refresh',
+    ];
+
+    public function rules(){
+        if($this->newImage){
+            // dd('here ?');
+            return [
+                'body' => 'required',
+                'newImage' => 'image|max:7168|mimes:jpeg,png,svg,jpg,gif',
+            ];
+        }else{
+            return [
+                'body' => 'required',
+            ];
+        }
+    }
+    
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+    
     public function mount(){
         $this->body = $this->post->body;
         $this->newBody = $this->post->body;
         $this->image = $this->post->image;
     }
 
+    public function removeTemp(){
+        $this->newImage = null;
+    }
+
     public function editText(){
         // Frontend Update:
+        $this->validate();
         $this->post->body = $this->newBody;
 
         // Backend Update:
-        ModelsPost::where([
-            'id' => $this->post->id,
-        ])->update([
-            'body' => $this->newBody,
-        ]);
+        if($this->newImage){
+            $imageName = $this->newImage->store('images', 'public');
+            ModelsPost::where([
+                'id' => $this->post->id,
+            ])->update([
+                'body' => $this->newBody,
+                'image'=> $imageName,
+            ]);
+        }else{
+            ModelsPost::where([
+                'id' => $this->post->id,
+            ])->update([
+                'body' => $this->newBody,
+            ]);
+        }
+
+        $this->newImage = null;
+        // $this->newBody = null;
+        // $this->$refr
+        $this->emitUp('updatedPost');
+        $this->emitSelf('updatedPost');
+
     }
 
     public function checkForDeletion($isOpened = false): void{
@@ -68,9 +118,8 @@ class Post extends Component
     {
         // dd($post->id);
         $this->authorize('delete', $this->post);
+        Storage::delete('public/'.$this->post->image);
         ModelsPost::where(['id' => $this->post->id])->delete();
-        
-        // $this->emit('$refresh');
         
         // dd($post_id);
         $this->emitUp('removed');

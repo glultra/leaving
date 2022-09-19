@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
+const colors = require('tailwindcss/colors.js');
 const plugin = require('tailwindcss/plugin')
 
 
@@ -27,6 +28,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                // slate: colors.blueGray,
                 primary: {
                     50: "#eff6ff",
                     100: "#dbeafe",

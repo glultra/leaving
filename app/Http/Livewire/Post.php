@@ -21,7 +21,20 @@ class Post extends Component
     public $listeners = [
         'removed' => '$refresh',
         'showSuccess' => 'showSuccess',
+        'updatedPost' => 'onUpdatePost',
     ];
+
+    public function onUpdatePost(){
+        $this->posts = ModelsPost::latest()->get();
+
+        $this->notification([
+            'title'       => 'Post updated!',
+            'description' => 'Your post was successfull updated',
+            'icon'        => 'success'
+        ]);
+
+        $this->emitTo('post', 'updatePost');
+    }
 
     public function showSuccess(){
         $this->notification()->success(
@@ -54,7 +67,6 @@ class Post extends Component
         $this->posts = ModelsPost::latest()->get();
     }
 
-    
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
