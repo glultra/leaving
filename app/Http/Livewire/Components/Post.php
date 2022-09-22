@@ -10,11 +10,13 @@ use Livewire\Livewire;
 use Livewire\WithFileUploads;
 use WireUi\Traits\Actions;
 
+
 class Post extends Component
 {
     use Actions;
     use AuthorizesRequests;
     use WithFileUploads;
+    // use Trickster;
     
     public ModelsPost $post;
     public $isOpened = false;
@@ -32,7 +34,7 @@ class Post extends Component
             // dd('here ?');
             return [
                 'body' => 'required',
-                'newImage' => 'image|max:7168|mimes:jpeg,png,svg,jpg,gif',
+                'newImage' => 'max:7168|mimes:jpeg,png,svg,jpg,gif,mp4',
             ];
         }else{
             return [
@@ -64,6 +66,9 @@ class Post extends Component
         // Backend Update:
         if($this->newImage){
             $imageName = $this->newImage->store('images', 'public');
+            // Deleting previous post image.
+            Storage::delete('public/'.$this->post->image);
+            // Storing new data in the database.
             ModelsPost::where([
                 'id' => $this->post->id,
             ])->update([

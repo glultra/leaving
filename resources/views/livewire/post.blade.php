@@ -61,7 +61,16 @@
 
                     @if ($image)
                     <div class="flex justify-center">
-                        <img class="mt-2 w-52" src="{{ $image->temporaryUrl() }}">
+                        {{-- <img class="mt-2 w-52" src="{{ $image->temporaryUrl() }}"> --}}
+                        {{-- {{pathinfo(storage_path( $image->temporaryUrl() ), PATHINFO_EXTENSION)}} --}}
+                        @if ( $image->extension() != 'mp4')
+                            <img class="mt-2 w-52" src="{{ $image->temporaryUrl() }}">
+                        @else
+                        {{-- <div>    --}}
+                            <iframe class="aspect-w-11" allowfullscreen src="{{ $image->temporaryUrl() }}" frameborder="0"></iframe>
+                        {{-- </div> --}}
+                        @endif
+                        {{-- <iframe class="mt-2 w-52" src="{{ $image->temporaryUrl() }}" frameborder="0"></iframe> --}}
                         {{-- <i class="fas ml-5 fa-times text-red-200 hover:text-red-600 cursor-pointer" wire:click='removeTemp'>x</i> --}}
                         <button class="ml-1 mt-2  dark:bg-slate-400 rounded-tr-2xl rounded-br-2xl text-white hover:dark:text-gray-300 hover:dark:bg-slate-500 cursor-pointer" wire:click='removeTemp' >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

@@ -21,15 +21,20 @@
             <span class="align-text-top ml-2 cursor-pointer" onclick="$openModal('postLikedList-{{$post->id}}')"> {{$post->likes()->count()}} {{Str::plural('like', $post->likes()->count())}}</span>
         </form>
     @endif
-    <x-modal blur wire:model.defer="postLikedList-{{$post->id}}" class="justify-center">
+
+    <x-modal blur wire:model.defer="postLikedList-{{$post->id}}" align='center'>
         <x-card title="Post liked by">
             <ul class="text-gray-600 dark:text-white">
-                @foreach ($post->likes as $like)
+                @if (count($post->likes)) 
+                    @foreach ($post->likes as $like)
                     <li class="mt-2 rounded shadow dark:border-transparent dark:shadow-slate-900  border p-3">
                         <a href="" class="font-bold">{{ $like->user->name }}</a>
                         <span>{{ $like->created_at->diffForHumans() }}</span>
                     </li>
-                @endforeach
+                    @endforeach
+                @else
+                    <p>Post has no recent likes :( </p>
+                @endif
             </ul>
      
             <x-slot name="footer">
@@ -39,4 +44,5 @@
             </x-slot>
         </x-card>
     </x-modal>
+   
 </div>

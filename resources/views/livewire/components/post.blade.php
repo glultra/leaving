@@ -57,7 +57,15 @@
             </div> --}}
 
             @if ($post->image)
-                <img src="{{ asset('storage/'.$post->image); }}" class="aspect-w-3 mt-2" width="300px"/>
+                <div class="relative h-0 overflow-hidden max-w-full w-full" style="padding-bottom: 56.25%">
+                    @if ( pathinfo(storage_path(asset('storage/'.$post->image)), PATHINFO_EXTENSION) != 'mp4')
+                        <img draggable="false"  src="{{ asset('storage/'.$post->image) }}" class="absolute top-0 left-0 w-full h-full" width="300px"/>
+                    @else
+                        <iframe draggable="false" src="{{ asset('storage/'.$post->image);  }}" frameborder="0" allowfullscreen
+                            class="absolute top-0 left-0 w-full h-full"  width="300px"></iframe>
+                    @endif
+                </div>
+
             @endif
 
             {{-- <livewire:components.post-like > --}}
@@ -94,7 +102,14 @@
             @enderror
             @if ($newImage)
             <div class="flex justify-center mb-2">
-                <img class="mt-2 w-52" src="{{ $newImage->temporaryUrl() }}">
+                @if ( $newImage->extension() != 'mp4')
+                    <img class="mt-2 w-52" src="{{ $newImage->temporaryUrl() }}">
+                @else
+                    {{-- <iframe class="mt-2 w-52" src="{{ $newImage->temporaryUrl() }}" frameborder="0"></iframe> --}}
+                    <iframe class="aspect-w-11" allowfullscreen src="{{ $newImage->temporaryUrl() }}" frameborder="0"></iframe>
+
+                @endif
+        
                 {{-- <i class="fas ml-5 fa-times text-red-200 hover:text-red-600 cursor-pointer" wire:click='removeTemp'>x</i> --}}
                 <button class="ml-1 mt-2  dark:bg-slate-400 rounded-tr-2xl rounded-br-2xl text-white hover:dark:text-gray-300 hover:dark:bg-slate-500 cursor-pointer" wire:click='removeTemp' >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -105,7 +120,7 @@
             @endif
 
             <!-- container after clicked "EDIT" -->
-            <div x-show="open" class="flex justify-between items-center">
+            <div x-show="open" class="flex justify-center items-center">
                 <input type="text"
                     class="w-full bg-white dark:bg-slate-600 rounded p-2 mr-4 border focus:outline-none focus:border-blue-500"
                     wire:model='newBody'>

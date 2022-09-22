@@ -38,8 +38,7 @@ class PostLike extends Component
             $this->emit("refresh"); 
             $this->emitUp('postLiked');
         }
-
-       
+        
     }
 
     public function render()

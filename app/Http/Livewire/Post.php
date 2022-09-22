@@ -48,11 +48,10 @@ class Post extends Component
                 "method" => 'undo',
                 'params' => $tempPost
             ],
-            'onClose' => [
-                "method" => 'close',
-                'params' => $tempPost
-
-            ]
+            'onTimeout' => [
+                'method' => 'close',
+                'params' => $tempPost,
+            ],
         ]);
     }
 
@@ -82,8 +81,8 @@ class Post extends Component
             ]);
         }
 
+        // dd($post->image);
         Storage::move('public/temp/'.$post->image, 'public/'.$post->image);
-
 
         $this->posts = ModelsPost::latest()->get();
     }
@@ -98,7 +97,7 @@ class Post extends Component
             // dd('here ?');
             return [
                 'body' => 'required',
-                'image' => 'image|max:7168|mimes:jpeg,png,svg,jpg,gif',
+                'image' => 'max:7168|mimes:jpeg,png,svg,jpg,gif,mp4',
             ];
         }else{
             return [
