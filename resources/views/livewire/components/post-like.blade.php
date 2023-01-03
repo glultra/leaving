@@ -29,7 +29,7 @@
                     @foreach ($post->likes as $like)
                     <li class="mt-2 rounded shadow dark:border-transparent dark:shadow-slate-900  border p-3">
                         <a href="" class="font-bold">{{ $like->user->name }}</a>
-                        <span>{{ $like->created_at->diffForHumans() }}</span>
+                        <div wire:poll.150ms >{{ $like->created_at->diffForHumans() }}</div>
                     </li>
                     @endforeach
                 @else

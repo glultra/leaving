@@ -23,11 +23,16 @@ class Post extends Component
     public $newBody;
     public $newImage;
     public $body;
+    public $image;
 
     public $listeners = [
         'updatedPost' => '$refresh',
         'likedPost' => '$refresh',
     ];
+
+    public function broadcastedNewPost(){
+
+    }
 
     public function rules(){
         if($this->newImage){

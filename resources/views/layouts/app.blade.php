@@ -9,16 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Social livewire</title>
-    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
 
+    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
+    
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite('resources/js/bootstrap.js')
     @vite('resources/css/app.css')
-    {{-- @vite('resources/js/app.js') --}}
     @livewireStyles
-    @livewireScripts
     @wireUiScripts
     <script src="//unpkg.com/alpinejs" defer></script>
-    {{-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
-
+    {{-- @vite('resources/js/app.js') --}}
+    {{-- <wireui:scripts /> --}}
 
     {{-- <wireui:scripts /> --}}
     
@@ -45,13 +48,13 @@
     <script  src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
     data-turbolinks-eval="false" data-turbo-eval="false"></script> --}}
 
-    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
    
     <script>
-        window.livewire.on('redirect', url => Turbo.visit(url));
+        // window.livewire.on('redirect', url => Turbo.visit(url));
     </script>
 
 
+    @livewireScripts
 
 </body>
 

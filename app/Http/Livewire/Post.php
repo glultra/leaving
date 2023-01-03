@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\NewPost;
 use App\Models\Post as ModelsPost;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -23,8 +24,15 @@ class Post extends Component
         'removed' => '$refresh',
         'showSuccess' => 'showSuccess',
         'updatedPost' => 'onUpdatePost',
+        'echo:post-published,NewPost' => 'broadcastedNewPost',
+        'refresh' => '$refresh',
     ];
 
+    public function broadcastedNewPost(){
+        // dd('here ?');
+        $this->emit('refresh');
+        $this->posts = ModelsPost::latest()->get();
+    }
 
     public function onUpdatePost(){
         $this->posts = ModelsPost::latest()->get();
@@ -104,6 +112,8 @@ class Post extends Component
                 'body' => 'required',
             ];
         }
+
+
        
     }
 
@@ -123,14 +133,14 @@ class Post extends Component
         // Store
         if($this->image){
             $imageName = $this->image->store('images', 'public');
-            ModelsPost::create([
+            $post = ModelsPost::create([
                 'user_id' => auth()->user()->id,
                 'body' => $this->body,
                 'image' => $imageName, 
             ]);
             // dd('success');
         }else{
-            ModelsPost::create([
+            $post = ModelsPost::create([
                 'user_id' => auth()->user()->id,
                 'body' => $this->body,
             ]);
@@ -147,7 +157,8 @@ class Post extends Component
             'icon'        => 'success'
         ]);
 
-        
+
+        event(new NewPost($post));
     }
 
     public function render()
