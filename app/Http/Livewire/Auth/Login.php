@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Route;
 
 class Login extends Component
 {
@@ -58,11 +59,13 @@ class Login extends Component
     
     public function store(Request $request){
         $validatedData = $this->validate();
-
+        // dd('here?');
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember))
         {
             session()->put('success', 'Succesfully logged in.');
+            // dd('here?');
             $this->emit('redirect', '/dashboard');
+            return redirect()->route('dashboard');
         }else{
             // session()->put('message', 'weird!');
             session()->flash('error', 'email or password must be wrong.');

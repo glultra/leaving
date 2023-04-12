@@ -44,6 +44,7 @@ class Register extends Component
         if(Auth::attempt(['email' => $this->email, 'password' => $this->password], false)){
             session()->put('success', 'successfully created account !');
             $this->emit('redirect', '/dashboard');
+            return redirect()->route('dashboard');
         }
         
     }
