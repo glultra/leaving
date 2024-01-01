@@ -1,20 +1,21 @@
 .msg_body_me {
-  background-color: rgb(238, 238, 238);
+  background-color: #138ffb !important;
   margin-left: auto;
   color: black;
   border-bottom-right-radius: 0 !important;
 }
 .msg_body_me .read {
-  color: rgb(27, 27, 27);
+  color: #138ffb;
 }
 
 .msg_body_receiver {
-  background-color: #138ffb;
+  background-color: #1b1b1b !important;
   color: rgb(255, 255, 255);
   border-bottom-left-radius: 0 !important;
+
 }
 .msg_body_receiver .read {
-  color: rgb(204, 204, 204);
+  color: #cccccc;
 }
 
 /*---------------------------*/
@@ -223,7 +224,7 @@ img {
 .chat_box_container .chatbox_header .name {
   margin: auto 5px;
   cursor: pointer;
-  color: rgb(61, 61, 61);
+  color: #ffffff;
   font-weight: lighter;
 }
 .chat_box_container .chatbox_header .info {
