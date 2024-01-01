@@ -11,7 +11,7 @@ use App\Http\Livewire\Post;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/home', Home::class)->name('home');
+Route::get('/', Home::class)->name('home');
 Route::get('/posts', Post::class)->name('posts');
 
 Route::middleware(['auth'])->group(function() {

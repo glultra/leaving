@@ -3,8 +3,8 @@
     <nav class="bg-slate-50 first-letter border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div class="container flex flex-wrap justify-between items-center mx-auto">
             <a href="{{ route('home') }}" class="flex items-center">
-                <img src="https://cdn.iconscout.com/icon/free/png-256/free-triangle-173-433424.png" class="mr-3 h-6 sm:h-16 bg-gray-300 rounded-full pt-1" alt="Flowbite Logo">
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                <img src="https://cdn.iconscout.com/icon/free/png-256/free-triangle-173-433424.png" class="mr-3 h-6 sm:h-16 bg-gray-300 rounded-full pt-1 px-0.5" alt="EPU Social">
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">EPU Social</span>
             </a>
             <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
